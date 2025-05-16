@@ -101,6 +101,7 @@ const launchWheel = () => {
 }
 
 const wheelStartedCallback = () => {
+  result.value = null
   startAudio.value = new Audio(audios['start'])
 
   startAudio.value.loop = true
