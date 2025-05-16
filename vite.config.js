@@ -10,7 +10,7 @@ export default ({ mode }) => {
     plugins: [
       vue(),
     ],
-    base: process.env.NODE_ENV === 'production' ? '/vite-pokemon-roulette/' : '/',
+    base: './',
     server: {
       open: true,
       port: 3500,
