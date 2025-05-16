@@ -232,7 +232,7 @@ export default defineComponent({
       this.reset()
       document.querySelector(`#wheel-container-${this.randomIdRoulette} .wheel`).addEventListener('transitionend', () => {
         this.processingLock = false
-        this.$emit('wheel-end', this.itemSelected)
+        this.$emit('wheelEnd', this.itemSelected)
       })
     })
   },
@@ -283,7 +283,7 @@ export default defineComponent({
       // 6. 更新 currentRotation
       this.currentRotation = rotateTo
 
-      this.$emit('wheel-start', this.itemSelected)
+      this.$emit('wheelStart', this.itemSelected)
     },
   },
 })
