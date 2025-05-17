@@ -45,10 +45,14 @@
         </template>
       </Roulette>
 
-      <div v-show="result">
+      <!-- <div v-show="result">
         <button class="btn btn-xs mx-2" @click="onResetWheel()">
           Reset
         </button>
+      </div> -->
+
+      <div class="mt-4">
+        <textarea v-model="numbers" class="textarea textarea-accent w-full h-72" />
       </div>
     </div>
   </div>
@@ -56,7 +60,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import Roulette from '@/components/Roulette.vue'
 import { audios, pokemonIcons } from '@/utils/glob-direct'
 import bgImage from '@/assets/image/background.jpg'
@@ -83,19 +87,25 @@ const wheelSettings = ref({
   baseBackground: '#eeaacc',
   baseHtmlContent: '<p>Touch</p>',
 })
-const items = [
-  { id: 2, htmlContent: `2 <img src="${pokemonIcons['2']}" class="w-10 h-10">`, textColor: '', background: '' },
-  { id: 3, htmlContent: `3 <img src="${pokemonIcons['3']}" class="w-10 h-10">`, textColor: '', background: '' },
-  { id: 4, htmlContent: `4 <img src="${pokemonIcons['4']}" class="w-10 h-10">`, textColor: '', background: '' },
-  { id: 5, htmlContent: `5 <img src="${pokemonIcons['5']}" class="w-10 h-10">`, textColor: '', background: '' },
-  { id: 6, htmlContent: `6 <img src="${pokemonIcons['6']}" class="w-10 h-10">`, textColor: '', background: '' },
-  { id: 7, htmlContent: `7 <img src="${pokemonIcons['7']}" class="w-10 h-10">`, textColor: '', background: '' },
-  { id: 8, htmlContent: `8 <img src="${pokemonIcons['8']}" class="w-10 h-10">`, textColor: '', background: '' },
-  { id: 9, htmlContent: `9 <img src="${pokemonIcons['9']}" class="w-10 h-10">`, textColor: '', background: '' },
-]
 const firstItemIndex = ref({ value: 0 })
 const startAudio = ref()
 const stopAudio = ref()
+const numberArray = ref([2, 3, 4, 5, 6, 7, 8, 9])
+const numbers = computed({
+  get: () => numberArray.value.join('\n'),
+  set: value => {
+    numberArray.value = value.split('\n')
+  },
+})
+const items = computed(() => {
+  return numberArray.value
+    .filter(number => number !== '')
+    .map(number => ({
+      id: number,
+      htmlContent: `<div class="flex items-center justify-center">${number} <img src="${pokemonIcons[number]}" class="w-10 h-10"></div>`,
+    }))
+})
+
 const launchWheel = () => {
   wheel.value.launchWheel()
 }
@@ -123,11 +133,11 @@ const wheelEndedCallback = resultItem => {
   }
 }
 
-const onResetWheel = () => {
-  wheelActive.value = false
-  result.value = null
-  setTimeout(() => {
-    wheelActive.value = true
-  }, 10)
-}
+// const onResetWheel = () => {
+//   wheelActive.value = false
+//   result.value = null
+//   setTimeout(() => {
+//     wheelActive.value = true
+//   }, 10)
+// }
 </script>
